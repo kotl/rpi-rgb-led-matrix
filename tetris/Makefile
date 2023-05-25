@@ -1,6 +1,8 @@
+
 CFLAGS=-Wall -O3 -g -Wextra -Wno-unused-parameter
 CXXFLAGS=$(CFLAGS)
-OBJECTS=tetris.o tetris_data.o
+EXTRA_OBJECTS=tetris_data.o
+OBJECTS=tetris.o ${EXTRA_OBJECTS}
 BINARIES=tetris
 
 # Where our library resides. You mostly only need to change the
@@ -21,11 +23,11 @@ all : $(BINARIES)
 $(RGB_LIBRARY): FORCE
 	$(MAKE) -C $(RGB_LIBDIR)
 
-tetris : tetris.o tetris_data.o
+tetris : $(OBJECTS)
 
 # All the binaries that have the same name as the object file.q
 % : %.o $(RGB_LIBRARY)
-	$(CXX) tetris_data.o $< -o $@ $(LDFLAGS)
+	$(CXX) $(EXTRA_OBJECTS) $< -o $@ $(LDFLAGS)
 
 
 %.o : %.cc
