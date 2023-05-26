@@ -47,7 +47,6 @@ static void removeRow(Canvas *canvas, int row, int dir) {
       canvas->SetPixel(w - x - 1, row*2+2, 100, 100, 10);
       canvas->SetPixel(w - x - 1, row*2+1, 100, 100, 10);
     }
-    usleep(25);
   }
 }
 
@@ -62,7 +61,6 @@ static void removeCol(Canvas *canvas, int col) {
 
     canvas->SetPixel(col+1, y, 0, 0, 255);
     canvas->SetPixel(w - 2-col, y, 0, 0, 255);
-    usleep(10);
   }
 }
 
@@ -128,7 +126,7 @@ int main(int argc, char *argv[]) {
     for (int col = 0; col < w/2; col++) {
       removeCol(canvas, col);
       if (!interrupt_received) {
-        usleep(delay/2);
+        usleep(delay/4);
       }
     }
 
