@@ -1,4 +1,6 @@
-tetris
 tetris_data.o
 tetris.o
-
+tetris_string.o
+tetris_clock.o
+tetris_string
+tetris_clock

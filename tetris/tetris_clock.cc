@@ -38,14 +38,31 @@ static void drawRect(Canvas *canvas) {
 
 static void removeRow(Canvas *canvas, int row, int dir) {
   int w = canvas->width();
-  for (int x = 0; x < w; x++) {
+  for (int x = 1; x < w-1; x++) {
     if (interrupt_received) return;
     if (dir == 0) {
-      canvas->SetPixel(x, row, 25, 25, 40);
+      canvas->SetPixel(x, row*2+2, 10, 10, 100);
+      canvas->SetPixel(x, row*2+1, 10, 10, 100);
     } else {
-      canvas->SetPixel(w - x - 1, row, 40, 40, 25);
+      canvas->SetPixel(w - x - 1, row*2+2, 100, 100, 10);
+      canvas->SetPixel(w - x - 1, row*2+1, 100, 100, 10);
     }
-    usleep(50);
+    usleep(25);
+  }
+}
+
+static void removeCol(Canvas *canvas, int col) {
+  int w = canvas->width();
+  int h = canvas->height();
+
+  for (int y = 0; y < h / 2; y++) {
+    if (interrupt_received) return;
+    canvas->SetPixel(col+1, y + h / 2, 255, 255, 0);
+    canvas->SetPixel(w - 2-col, y + h / 2, 255, 255, 0);
+
+    canvas->SetPixel(col+1, y, 0, 0, 255);
+    canvas->SetPixel(w - 2-col, y, 0, 0, 255);
+    usleep(10);
   }
 }
 
@@ -95,6 +112,7 @@ int main(int argc, char *argv[]) {
   TetrisString y = TetrisString(13, 0, ":", canvas);
   TetrisString x = TetrisString(1, 0, generate_time_str(), canvas);
 
+  int w = canvas->width();
   int h = canvas->height();
 
   while (!interrupt_received) {
@@ -107,10 +125,10 @@ int main(int argc, char *argv[]) {
       msec -= 100;
     }
 
-    for (int row = 0; row < h; row++) {
-      removeRow(canvas, row, row % 2);
+    for (int col = 0; col < w/2; col++) {
+      removeCol(canvas, col);
       if (!interrupt_received) {
-        usleep(delay);
+        usleep(delay/2);
       }
     }
 
