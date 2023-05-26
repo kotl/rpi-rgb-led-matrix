@@ -1,9 +1,9 @@
 
 CFLAGS=-Wall -O3 -g -Wextra -Wno-unused-parameter
 CXXFLAGS=$(CFLAGS)
-EXTRA_OBJECTS=tetris_data.o
-OBJECTS=tetris.o ${EXTRA_OBJECTS}
-BINARIES=tetris
+EXTRA_OBJECTS=tetris_data.o tetris.o
+OBJECTS=tetris_string.o tetris_clock.o ${EXTRA_OBJECTS}
+BINARIES=tetris_string tetris_clock
 
 # Where our library resides. You mostly only need to change the
 # RGB_LIB_DISTRIBUTION, this is where the library is checked out.
@@ -23,7 +23,9 @@ all : $(BINARIES)
 $(RGB_LIBRARY): FORCE
 	$(MAKE) -C $(RGB_LIBDIR)
 
-tetris : $(OBJECTS)
+tetris_string : tetris_string.o $(EXTRA_OBJECTS)
+
+tetris_clock : tetris_clock.o $(EXTRA_OBJECTS)
 
 # All the binaries that have the same name as the object file.q
 % : %.o $(RGB_LIBRARY)
