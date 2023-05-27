@@ -4,3 +4,4 @@ tetris_string.o
 tetris_clock.o
 tetris_string
 tetris_clock
+pid.txt
