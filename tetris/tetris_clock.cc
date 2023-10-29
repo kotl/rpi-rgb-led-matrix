@@ -50,6 +50,7 @@ static void removeRow(Canvas *canvas, int row, int dir) {
   }
 }
 
+
 static void removeCol(Canvas *canvas, int col) {
   int w = canvas->width();
   int h = canvas->height();
@@ -74,7 +75,15 @@ std::string generate_time_str() {
 }
 
 int main(int argc, char *argv[]) {
+  if (argc != 4) {
+    printf("Usage: tetris_clock speed_delay_usec freq_delay_seconds brightness\n");
+    return 1;
+  }
+
   RGBMatrix::Options defaults;
+
+  int brightness = atoi(argv[3]);
+
   defaults.hardware_mapping = "regular";  // or e.g. "adafruit-hat"
   defaults.rows = 32;
   defaults.cols = 64;
@@ -82,13 +91,9 @@ int main(int argc, char *argv[]) {
   defaults.chain_length = 1;
   defaults.parallel = 1;
   defaults.show_refresh_rate = false;
+  defaults.brightness = brightness;
 
   RGBMatrix *canvas = RGBMatrix::CreateFromFlags(&argc, &argv, &defaults);
-
-  if (argc != 3) {
-    printf("Usage: tetris_clock speed_delay_usec freq_delay_seconds\n");
-    return 1;
-  }
 
   if (canvas == NULL) return 1;
 
